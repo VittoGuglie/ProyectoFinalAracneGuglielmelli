@@ -1,0 +1,33 @@
+.navList{
+    list-style-type: none;
+    font-size: 1.5rem;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid gray;
+    background-color: #cbcbcb;
+    position: relative;
+}
+.navItem{
+    float: left;
+}
+.navList li a{
+    text-decoration: none;
+    padding: 6px 15px;
+    color: #000000;
+    border-radius: 12px;
+    display: block;
+    text-align: center;
+}
+.navList li a:hover , 
+.navList li a.active
+{
+    background: #92b0e9;
+    color:#ffffff;
+}
+.widget-container {
+    position: absolute;
+    right: 30px;
+    top: 5px;
+    width: 35px;
+}
