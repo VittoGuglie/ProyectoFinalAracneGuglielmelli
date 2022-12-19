@@ -29,5 +29,8 @@
     position: absolute;
     right: 30px;
     top: 5px;
-    width: 35px;
+    width: 45px;
+    flex-direction: row;
+    display: flex;
+    font-size: 1rem;
 }
