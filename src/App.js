@@ -1,7 +1,7 @@
 import './App.css';
 import NavBar from './components/NavBar';
 import CartWidget from "./components/CartWidget"
-import ItemListContainer from './containers';
+import ItemListContainer from './containers/itemListContainer';
 
 function App() {
   return (
