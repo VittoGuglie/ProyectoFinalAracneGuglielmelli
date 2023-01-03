@@ -2,6 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import productos from '../../data/products.json'
+import ItemList from '../../components/ItemList'
 
 const ItemListContainer = ({greeting}) => {
     const [products, setProducts] = useState([])
