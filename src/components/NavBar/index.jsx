@@ -7,16 +7,21 @@ export default function NavBar(){
     return (
         <ul className='navList'>
             <li className='navItem'>
-                <Link to="/"><img src="C:\Users\Hp\OneDrive\Escritorio\ecommerceGuglielmelli\aracne\public\logoempresa.png" alt="logo-empresa-aracne" /></Link>
+                <Link to="/"><img src="..\logoempresa.png" alt="logo-empresa-aracne" style={{
+                    width:'50%',
+                }}/></Link>
             </li>
             <li className='navItem'>
-                <a href="#products">Electrónica</a>
+                <Link to="/category/electronics">Electrónica</Link>
             </li>
             <li className='navItem'>
-                <a href="#service">Ropa</a>
+                <Link to="/category/jewelery">Joyería</Link>
             </li>
             <li className='navItem'>
-                <a href="#contact">Accesorios</a>
+                <Link to="/category/men's clothing">Ropa de hombre</Link>
+            </li>
+            <li className='navItem'>
+                <Link to="/category/women's clothing">Ropa de mujer</Link>
             </li>
             <div className="widget-container">
                 <CartWidget/>
