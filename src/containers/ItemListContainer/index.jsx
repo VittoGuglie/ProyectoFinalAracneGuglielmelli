@@ -1,21 +1,14 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import productos from '../../data/products.json'
 import ItemList from '../../components/ItemList'
 
 const ItemListContainer = ({greeting}) => {
     const [products, setProducts] = useState([])
     useEffect(() => {
-        const promise = new Promise((acc, rej) => {
-            setTimeout(() => {
-                acc(productos);
-            }, 2000);
-        });
-        promise
-            .then((result) => {
-                setProducts(result);
-            })
+        fetch('https://fakestoreapi.com/products')
+            .then(res => res.json())
+            .then(json => setProducts(json))
             .catch((error) => {
                 alert(error.message);
             });
