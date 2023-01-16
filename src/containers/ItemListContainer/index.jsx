@@ -1,10 +1,10 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import ItemList from '../../components/ItemList'
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ItemList from '../../components/ItemList';
 
-const ItemListContainer = ({greeting}) => {
+const ItemListContainer = () => {
     const [products, setProducts] = useState([])
     const {categoryId} = useParams()
 
@@ -25,7 +25,6 @@ const ItemListContainer = ({greeting}) => {
     }, [categoryId])
     return (
         <div>
-            <h1>{greeting}</h1>
             <ItemList productos={products}/>
         </div>
     )

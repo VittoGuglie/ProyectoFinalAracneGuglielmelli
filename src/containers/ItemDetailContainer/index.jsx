@@ -1,8 +1,8 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import ItemDetail from '../../components/ItemDetail'
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import ItemDetail from '../../components/ItemDetail';
 
 const ItemDetailContainer = () => {
     const [detail, setDetail] = useState({})
@@ -17,7 +17,9 @@ const ItemDetailContainer = () => {
     }, [id])
     return (
         <div>
-            <ItemDetail detail={detail}/>
+            {
+                Object.keys(detail).length === 0 ? <h2>Cargando ...</h2> : <ItemDetail detail={detail}/>
+            }
         </div>
     )
 }
