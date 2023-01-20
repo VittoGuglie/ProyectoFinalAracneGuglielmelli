@@ -4,13 +4,10 @@ import ItemDetailContainer from './containers/ItemDetailContainer';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Cart from './containers/CartContainer';
 import ShopProvider from './context/ShopProvider';
-import CartProvider from './context/CartContext';
 
 function App() {
   return (
     <>
-      <CartProvider>
-      </CartProvider>
       <ShopProvider>
         <BrowserRouter>
           <NavBar/>

@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import ItemCount from "../ItemCount";
 import { Shop } from '../../context/ShopProvider';
-import { CartContext } from '../../context/CartContext';
 
 
 const ItemDetail = ({detail}) => {
@@ -11,10 +10,7 @@ const ItemDetail = ({detail}) => {
 
     const {addProduct} = useContext(Shop);
 
-    const { addToCart } = useContext(CartContext);
-
     const onAdd = (cantidad) => {
-        addToCart(detail, cantidad);
         setQuantity(cantidad);
         addProduct({...detail, quantity: cantidad});
     }

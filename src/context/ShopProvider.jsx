@@ -26,12 +26,21 @@ const ShopProvider = ({children}) => {
         return cantidadTotal;
     }
 
+    const deleteItem = (id) => {
+        const updatedCart = products.filter(element => element.id !== id);
+        setProducts(updatedCart);
+    }
+
+    const clearCart = () => {
+        setProducts([]);
+    }
+
     const isProductInCart = (id) => {
         return products.some(product => product.id === id);
     }
 
     return(
-        <Shop.Provider value = {{products, addProduct, countCart}}>
+        <Shop.Provider value = {{products, addProduct, countCart, deleteItem, clearCart}}>
             {children}
         </Shop.Provider>
     )
