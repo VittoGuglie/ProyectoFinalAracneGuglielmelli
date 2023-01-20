@@ -7,9 +7,11 @@ export default function NavBar(){
     return (
         <ul className='navList'>
             <li className='navItem'>
-                <Link to="/"><img src="..\logoempresa.png" alt="logo-empresa-aracne" style={{
+                <Link to="/">
+                    <img src="..\logoempresa.png" alt="logo-empresa-aracne" style={{
                     width:'50%',
-                }}/></Link>
+                    }}/>
+                </Link>
             </li>
             <li className='navItem'>
                 <Link to="/category/electronics">Electrónica</Link>

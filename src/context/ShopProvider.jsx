@@ -18,15 +18,6 @@ const ShopProvider = ({children}) => {
         }
     }
 
-    const clearCart = () => {
-        products.splice(0, products.length);
-    }
-
-    const removeProduct = (id) => {
-        const productToRemove = products.find((prod) => prod.id === id);
-        products.splice(products.indexOf(productToRemove), productToRemove);
-    }
-
     const countCart = () => {
         let cantidadTotal = 0;
         for (const product of products){
@@ -40,7 +31,7 @@ const ShopProvider = ({children}) => {
     }
 
     return(
-        <Shop.Provider value = {{products, addProduct, countCart, removeProduct, clearCart}}>
+        <Shop.Provider value = {{products, addProduct, countCart}}>
             {children}
         </Shop.Provider>
     )

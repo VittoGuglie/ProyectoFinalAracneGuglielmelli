@@ -2,18 +2,21 @@ import React, {useState} from 'react';
 import { useContext } from 'react';
 import { Link } from "react-router-dom";
 import ItemCount from "../ItemCount";
-import { Shop } from '../../context/ShopProvider'
+import { Shop } from '../../context/ShopProvider';
+import { CartContext } from '../../context/CartContext';
 
 
 const ItemDetail = ({detail}) => {
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(0);
 
-    const {addProduct, clearCart, removeProduct} = useContext(Shop)
+    const {addProduct} = useContext(Shop);
+
+    const { addToCart } = useContext(CartContext);
 
     const onAdd = (cantidad) => {
-        console.log(`Se agregó una cantidad de productos: ${cantidad}`)
-        setQuantity(cantidad)
-        addProduct({...detail, quantity: cantidad})
+        addToCart(detail, cantidad);
+        setQuantity(cantidad);
+        addProduct({...detail, quantity: cantidad});
     }
 
     return (
@@ -66,12 +69,6 @@ const ItemDetail = ({detail}) => {
                     </button>
                 }
             </aside>
-            <button className='btn btn-danger p-2 m-3' onClick={removeProduct()}>
-                Eliminar del Carrito
-            </button>
-            <button className='btn btn-danger p-2 m-3' onClick={clearCart()}>
-                Vaciar Carrito
-            </button>
         </div>
     )
 }
