@@ -1,27 +1,21 @@
-import React from 'react';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import React from "react";
+import { useContext } from "react";
+import { Shop } from "../../context/ShopProvider";
 
-const CartItem = ({ item, handleDelete }) => {
+const CartItem = ({product, deleteItem}) => {
+    const { getTotalPrice } = useContext(Shop);
     return (
-        <Card body>
-            <Container>
-                <Row>
-                    <Col>
-                        {item.product.title}
-                    </Col>
-                    <Col>
-                        {item.product.quantity}
-                    </Col>
-                    <Col>
-                        {item.product.price}
-                    </Col>
-                    <Col>
-                        <Button variant='danger' onClick={handleDelete}>Eliminar</Button>
-                    </Col>
-                </Row>
-            </Container>
-        </Card>
-    )
-}
-
+        <tr>
+            <th scope="row">{product.id}</th>
+            <td><img src={product.image} alt={product.title} style={{
+                    width: '10%'
+                }}/></td>
+            <td>{product.title}</td>
+            <td>U$D{product.price}</td>
+            <td>{product.quantity}</td>
+            <td>U$D{getTotalPrice()}</td>
+            <td><button className='btn btn-danger' onClick={() => deleteItem(product.id)}>Eliminar</button></td>
+        </tr>
+    );
+};
 export default CartItem;

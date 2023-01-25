@@ -39,8 +39,12 @@ const ShopProvider = ({children}) => {
         return products.some(product => product.id === id);
     }
 
+    const getTotalPrice = () => {
+        return products.reduce((prev, act) => prev + act.quantity * act.price, 0);
+    }
+
     return(
-        <Shop.Provider value = {{products, addProduct, countCart, deleteItem, clearCart}}>
+        <Shop.Provider value = {{products, addProduct, countCart, deleteItem, clearCart, getTotalPrice}}>
             {children}
         </Shop.Provider>
     )

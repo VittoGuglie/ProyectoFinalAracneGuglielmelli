@@ -9,19 +9,23 @@ const ItemListContainer = () => {
     const {categoryId} = useParams()
 
     useEffect(() => {
-        fetch('https://fakestoreapi.com/products')
+        fetch('https://fakestoreapi.com/products', {
+            method: 'GET',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+                'Access-Control-Allow-Headers': 'Content-Type'
+            }
+            })
             .then(res => res.json())
             .then(products => {
                 if(categoryId){
-                    const productsFilteredByCategory = products.filter(producto => producto.category === categoryId)
-                    setProducts(productsFilteredByCategory)
+                    const productsFilteredByCategory = products.filter(producto => producto.category === categoryId);
+                    setProducts(productsFilteredByCategory);
                 } else {
-                    setProducts(products)
+                    setProducts(products);
                 }
             })
-            .catch((error) => {
-                alert(error.message)
-            });
     }, [categoryId])
     return (
         <div>

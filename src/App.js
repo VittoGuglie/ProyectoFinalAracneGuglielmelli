@@ -4,6 +4,7 @@ import ItemDetailContainer from './containers/ItemDetailContainer';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Cart from './containers/CartContainer';
 import ShopProvider from './context/ShopProvider';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path='/cart' element={<Cart/>}/>
             <Route path='*' element={<h2>Ruta no encontrada</h2>}/>
           </Routes>
+          <Footer/>
         </BrowserRouter>
       </ShopProvider>
     </>
