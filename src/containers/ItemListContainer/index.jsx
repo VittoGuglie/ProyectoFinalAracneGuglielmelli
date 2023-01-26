@@ -3,33 +3,37 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemList from '../../components/ItemList';
+import { db } from '../../Firebase/config';
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const ItemListContainer = () => {
-    const [products, setProducts] = useState([])
-    const {categoryId} = useParams()
+    const [products, setProducts] = useState([]);
+    const { categoryId } = useParams();
 
     useEffect(() => {
-        fetch('https://fakestoreapi.com/products', {
-            method: 'GET',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
-                'Access-Control-Allow-Headers': 'Content-Type'
-            }
-            })
-            .then(res => res.json())
-            .then(products => {
-                if(categoryId){
-                    const productsFilteredByCategory = products.filter(producto => producto.category === categoryId);
-                    setProducts(productsFilteredByCategory);
-                } else {
-                    setProducts(products);
+        const getProducts = async () => {
+            let querySnapshot;
+            if (categoryId) {
+                const q = query(collection(db, "products"), where("category", "==", categoryId));
+                querySnapshot = await getDocs(q);
+            } else {
+                querySnapshot = await getDocs(collection(db, "products"))
+            };
+            const productosFirebase = [];
+            querySnapshot.forEach((doc) => {
+                const product = {
+                    id: doc.id,
+                    ...doc.data()
                 }
-            })
+                productosFirebase.push(product)
+            });
+            setProducts(productosFirebase);
+        };
+        getProducts();
     }, [categoryId])
     return (
         <div>
-            <ItemList productos={products}/>
+            <ItemList productos={products} />
         </div>
     )
 }
