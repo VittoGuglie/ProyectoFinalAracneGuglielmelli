@@ -5,14 +5,51 @@ import { Shop } from '../../context/ShopProvider';
 import { Link } from 'react-router-dom';
 import generateOrderObject from '../../Services/generateOrderObject';
 import { useState } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../Firebase/config';
+import { doc, updateDoc } from "firebase/firestore";
+import Swal from 'sweetalert2';
 
 const CartContainer = () => {
-    const { products, deleteItem, clearCart } = useContext(Shop);
+    const { products, deleteItem, clearCart, getTotalPrice } = useContext(Shop);
+
+    const [loader, setLoader] = useState(false);
+
     const [formVisibility, setFormVisibility] = useState(false);
-    
-    const confirmPurchase = () => {
-        const order = generateOrderObject();
-        setFormVisibility(true);
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phonenumber, setPhonenumber] = useState('');
+
+    const confirmPurchase = async () => {
+        try {
+            setLoader(true);
+            const order = generateOrderObject({
+                nombre: name,
+                email: email,
+                telefono: phonenumber,
+                cart: products,
+                total: getTotalPrice()
+            });
+
+            const docRef = await addDoc(collection(db, "orders"), order);
+            clearCart();
+            for (const productCart of products) {
+                const productsRef = doc(db, "products", productCart.id);
+                await updateDoc(productsRef, {
+                    stock: productCart.stock - productCart.quantity
+                });
+            }
+            Swal.fire(
+                '¡Compra exitosa!',
+                'Gracias por su compra. Orden confirmada con id: ' + docRef.id,
+                'success'
+            );
+        } catch (error) {
+            alert("Oh, oh. Ha ocurrido un error.");
+        } finally {
+            setLoader(false);
+        }
     }
 
     return (
@@ -34,7 +71,7 @@ const CartContainer = () => {
                 }
                 {
                     products.length > 0 && <>
-                        <table class="table table-info table-striped">
+                        <table className="table table-info table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">Id</th>
@@ -52,42 +89,28 @@ const CartContainer = () => {
                                 ))}
                             </tbody>
                         </table>
-                        <button className='btn btn-info' onClick={confirmPurchase()}>Terminar la compra</button>
-                        {
-                            formVisibility = true &&
-                            <div class="modal" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Complete el formulario para confirmar su compra:</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="email" class="form-label">Email:</label>
-                                                    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder='Ingrese su email'/>
-                                                        <div id="emailHelp" class="form-text">Nunca compartiremos tu email.</div>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="name" class="form-label">Nombre:</label>
-                                                    <input type="name" class="form-control" placeholder='Ingrese su nombre'/>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="telefono" class="form-label">Telefono:</label>
-                                                    <input type="telefono" class="form-control" placeholder='Ingrese su telefono'/>
-                                                </div>
-                                                <button type="submit" class="btn btn-success">Finalizar compra</button>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </div>
+                        {loader ? <h2>Cargando...</h2> : <button className='btn btn-info' onClick={() => {
+                            setFormVisibility(true);
+                        }}>Terminar la compra</button>}
+                        {formVisibility === true &&
+                            <form onSubmit={ev => {
+                                ev.preventDefault();
+                            }}>
+                                <div className="mb-3">
+                                    <label for="email" className="form-label">Email:</label>
+                                    <input type="email" name="email" value={email} className="form-control" aria-describedby="emailHelp" placeholder='Ingrese su email' onChange={ev => setEmail(ev.target.value)} />
+                                    <div id="emailHelp" className="form-text">Nunca compartiremos tu email.</div>
                                 </div>
-                            </div>
-                        }
+                                <div className="mb-3">
+                                    <label for="name" className="form-label">Nombre:</label>
+                                    <input type="name" name="name" value={name} className="form-control" placeholder='Ingrese su nombre' onChange={ev => setName(ev.target.value)} />
+                                </div>
+                                <div className="mb-3">
+                                    <label for="telefono" className="form-label">Telefono:</label>
+                                    <input type="telefono" value={phonenumber} name="telefono" className="form-control" placeholder='Ingrese su telefono' onChange={ev => setPhonenumber(ev.target.value)} />
+                                </div>
+                                <button type="submit" className="btn btn-success" onClick={() => { confirmPurchase() }}>Finalizar compra</button>
+                            </form>}
                     </>
                 }
             </div>

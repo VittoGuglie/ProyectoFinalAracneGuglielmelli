@@ -1,3 +1,17 @@
+## Repositorio del proyecto final del curso de ReactJS por Vittorio Guglielmelli
+Curso de React JS donde vemos los siguientes temas:
+* Componentes.
+* Ciclos de vida de componentes.
+* Manejo asincrono.
+* Context
+* Firebase
+* Fetch
+* Etc.
+
+```javascript
+    npm install
+    npm start
+```
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

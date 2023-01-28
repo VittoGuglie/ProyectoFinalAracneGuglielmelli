@@ -8,7 +8,7 @@ const CartItem = ({product, deleteItem}) => {
         <tr>
             <th scope="row">{product.id}</th>
             <td><img src={product.image} alt={product.title} style={{
-                    width: '10%'
+                    width: '20%'
                 }}/></td>
             <td>{product.title}</td>
             <td>U$D{product.price}</td>
