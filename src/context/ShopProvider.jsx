@@ -60,6 +60,10 @@ const ShopProvider = ({ children }) => {
         })
     }
 
+    const clearCartForm = () => {
+        setProducts([]);
+    }
+
     const isProductInCart = (id) => {
         return products.some(product => product.id === id);
     }
@@ -69,7 +73,7 @@ const ShopProvider = ({ children }) => {
     }
 
     return (
-        <Shop.Provider value={{ products, addProduct, countCart, deleteItem, clearCart, getTotalPrice }}>
+        <Shop.Provider value={{ products, addProduct, countCart, deleteItem, clearCart, getTotalPrice, clearCartForm }}>
             {children}
         </Shop.Provider>
     )

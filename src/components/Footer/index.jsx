@@ -3,7 +3,7 @@ import './styles.css';
 
 export default function Footer(){
     return (
-        <div>
+        <footer>
             <h3>Contacto</h3>
             <div className='redesSociales'>
                 <a href=" https://wa.me/1130862526" target="_blank" rel="noreferrer"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -21,6 +21,6 @@ export default function Footer(){
                         </svg> Vitoguglie
                 </a>
             </div>
-        </div>
+        </footer>
     )
 }

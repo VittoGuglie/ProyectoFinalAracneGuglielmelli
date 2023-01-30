@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import ItemDetail from '../../components/ItemDetail';
 import { doc, getDoc } from "firebase/firestore";
 import { db } from '../../Firebase/config';
+import Spinner from 'react-bootstrap/Spinner';
 
 const ItemDetailContainer = () => {
     const [detail, setDetail] = useState({});
@@ -29,7 +30,7 @@ const ItemDetailContainer = () => {
     return (
         <div>
             {
-                Object.keys(detail).length === 0 ? <h2>Cargando ...</h2> : <ItemDetail detail={detail} />
+                Object.keys(detail).length === 0 ? <Spinner animation="border" variant="info" /> : <ItemDetail detail={detail} />
             }
         </div>
     )

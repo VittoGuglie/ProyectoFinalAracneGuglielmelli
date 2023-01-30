@@ -9,31 +9,30 @@ import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../Firebase/config';
 import { doc, updateDoc } from "firebase/firestore";
 import Swal from 'sweetalert2';
+import FormComp from '../../components/FormComp';
+import Spinner from 'react-bootstrap/Spinner';
 
 const CartContainer = () => {
-    const { products, deleteItem, clearCart, getTotalPrice } = useContext(Shop);
+    const { products, deleteItem, clearCart, getTotalPrice, clearCartForm } = useContext(Shop);
 
     const [loader, setLoader] = useState(false);
 
     const [formVisibility, setFormVisibility] = useState(false);
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phonenumber, setPhonenumber] = useState('');
-
-    const confirmPurchase = async () => {
+    const confirmPurchase = async (data) => {
+        const {name: nombre, email, phonenumber: telefono} = data
         try {
             setLoader(true);
             const order = generateOrderObject({
-                nombre: name,
-                email: email,
-                telefono: phonenumber,
+                nombre,
+                email,
+                telefono,
                 cart: products,
                 total: getTotalPrice()
             });
 
             const docRef = await addDoc(collection(db, "orders"), order);
-            clearCart();
+            clearCartForm();
             for (const productCart of products) {
                 const productsRef = doc(db, "products", productCart.id);
                 await updateDoc(productsRef, {
@@ -89,28 +88,16 @@ const CartContainer = () => {
                                 ))}
                             </tbody>
                         </table>
-                        {loader ? <h2>Cargando...</h2> : <button className='btn btn-info' onClick={() => {
+                        {loader ? <Spinner animation="border" variant="info" /> : <button className='btn btn-info' onClick={() => {
                             setFormVisibility(true);
                         }}>Terminar la compra</button>}
                         {formVisibility === true &&
-                            <form onSubmit={ev => {
-                                ev.preventDefault();
-                            }}>
-                                <div className="mb-3">
-                                    <label for="email" className="form-label">Email:</label>
-                                    <input type="email" name="email" value={email} className="form-control" aria-describedby="emailHelp" placeholder='Ingrese su email' onChange={ev => setEmail(ev.target.value)} />
-                                    <div id="emailHelp" className="form-text">Nunca compartiremos tu email.</div>
-                                </div>
-                                <div className="mb-3">
-                                    <label for="name" className="form-label">Nombre:</label>
-                                    <input type="name" name="name" value={name} className="form-control" placeholder='Ingrese su nombre' onChange={ev => setName(ev.target.value)} />
-                                </div>
-                                <div className="mb-3">
-                                    <label for="telefono" className="form-label">Telefono:</label>
-                                    <input type="telefono" value={phonenumber} name="telefono" className="form-control" placeholder='Ingrese su telefono' onChange={ev => setPhonenumber(ev.target.value)} />
-                                </div>
-                                <button type="submit" className="btn btn-success" onClick={() => { confirmPurchase() }}>Finalizar compra</button>
-                            </form>}
+                            <FormComp
+                            confirmPurchase={confirmPurchase}
+                            setFormVisibility={setFormVisibility}
+                            formVisibility={formVisibility}
+                            />
+                        }
                     </>
                 }
             </div>

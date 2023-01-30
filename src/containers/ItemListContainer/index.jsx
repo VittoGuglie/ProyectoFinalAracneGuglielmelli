@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import ItemList from '../../components/ItemList';
 import useFirebase from '../../Hooks/useFirebase';
+import Spinner from 'react-bootstrap/Spinner';
 
 const ItemListContainer = () => {
     const { categoryId } = useParams();
@@ -13,7 +14,7 @@ const ItemListContainer = () => {
             {error && <h1>Hubo un error: {error}</h1>}
             {
                 loading ?
-                    <h1>Cargando...</h1>
+                    <Spinner animation="border" variant="info" />
                     : <ItemList productos={products} />
             }
         </>
